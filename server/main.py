@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
-from vigenere_cipher import generate_key_string, encrypt_data , decrypt_data
-from playfair import encrypt,Decrypt
-app = Flask(__name__)
+from flask_cors import CORS  # Import the CORS module
+from vigenere_cipher import generate_key_string, encrypt_data, decrypt_data
+from playfair import encrypt, Decrypt
 
+app = Flask(__name__)
+CORS(app,resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes and origins
 
 @app.route('/')
 def Home():
@@ -27,8 +29,7 @@ def vigenere_encrypt_cipher():
         'encrypted_text': encrypted_text
     })
     
-    
-@app.route('/vignere-decrypt' , methods=['POST'])
+@app.route('/vignere-decrypt', methods=['POST'])
 def vigenere_decrypt_cipher():
     data = request.get_json()
     
@@ -39,7 +40,6 @@ def vigenere_decrypt_cipher():
     key = data['key']
     
     key_string = generate_key_string(encrypted_text, key)
-    
     plain_text = decrypt_data(encrypted_text, key_string)
 
     return jsonify({
@@ -48,7 +48,7 @@ def vigenere_decrypt_cipher():
         'plain_text': plain_text
     })
     
-@app.route('/playfair-encrypt' , methods=['POST'])
+@app.route('/playfair-encrypt', methods=['POST'])
 def playfair_encrypt():
     data = request.get_json()
     
@@ -57,9 +57,7 @@ def playfair_encrypt():
 
     plain_text = data['text'].lower()
     key = data['key']
-    
-    cipher_text = encrypt(plain_text , key )
-    
+    cipher_text = encrypt(plain_text, key)
 
     return jsonify({
         'encrypted_text': cipher_text,
@@ -67,7 +65,7 @@ def playfair_encrypt():
         'plain_text': plain_text
     })
 
-@app.route('/playfair-encrypt' , methods=['POST'])
+@app.route('/playfair-decrypt', methods=['POST'])  # Fixed the route name
 def playfair_decrypt():
     data = request.get_json()
     
@@ -76,15 +74,13 @@ def playfair_decrypt():
 
     cipher_text = data['text'].lower()
     key = data['key']
-    
-    plain_text = Decrypt(cipher_text , key )
-    
+    plain_text = Decrypt(cipher_text, key)
 
     return jsonify({
         'decrypted_text': plain_text,
         'key': key,
         'cipher_text': cipher_text
     })
-    
+
 if __name__ == "__main__":
     app.run(debug=True)

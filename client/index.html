@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encryption Tool</title>
+    <style>
+      .container-1 {
+        border: 1px solid #000;
+        border-radius: 12px;
+        padding: 20px;
+        width: 70%;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        font-family: Arial, sans-serif;
+        background-color: #cdffb2;
+      }
+      select {
+        padding: 5px;
+        border-radius: 10px;
+        height: 30px;
+        margin-bottom: 20px;
+        width: 50%;
+      }
+      .input-1 {
+        height: 30px;
+        width: 95%;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 5px;
+        margin-bottom: 20px;
+      }
+      .button {
+        height: 40px;
+        width: 120px;
+        border-radius: 8px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #2f5831;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body style="display: flex; flex-direction: column; justify-content: center">
+    <div class="container-1">
+      <div>
+        <select name="cipher" id="cipher">
+          <option value="vigenere">Vigenere Cipher</option>
+          <option value="playfair">Playfair Cipher</option>
+        </select>
+      </div>
+      <input
+        type="text"
+        name="plain_text"
+        id="plain_text"
+        class="input-1"
+        placeholder="Enter Plain Text"
+      />
+      <input
+        type="text"
+        name="key"
+        id="key"
+        class="input-1"
+        placeholder="Enter Key"
+      />
+      <div>
+        <button class="button" id="encrypt">Encrypt</button>
+        <button class="button" id="decrypt">Decrypt</button>
+      </div>
+      <div class="result" id="output"></div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
