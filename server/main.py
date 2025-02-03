@@ -2,14 +2,52 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import the CORS module
 from vigenere_cipher import generate_key_string, encrypt_data, decrypt_data
 from playfair import encrypt, Decrypt
-
+from AES_Cipher import aes_decrypt , aes_encrypt
 app = Flask(__name__)
 CORS(app,resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes and origins
 
 @app.route('/')
 def Home():
     return 'Home'
+@app.route('/aes-encrypt', methods=['POST'])
+def aes_encrypt_cipher():
+    data = request.get_json()
+    
+    if not data or 'text' not in data:
+        return jsonify({'error': 'Please provide both "text" and "key" in the request body.'}), 400
 
+    input_text = data['text'].lower()
+    
+    encrypted_text = aes_encrypt(input_text)
+
+    return jsonify({
+        'original_text': input_text,
+        'encrypted_text': encrypted_text
+    })
+    
+@app.route('/aes-decrypt', methods=['POST'])
+def aes_decrypt_cipher():
+    data = request.get_json()
+    
+    if not data or 'text' not in data or 'tag' not in data:
+        return jsonify({'error': 'Please provide both "text" and "key" in the request body.'}), 400
+
+    encrypted_text = data['text'].lower()
+    nonce = data['nonce']
+    tag = data['tag']
+    
+    plain_text = aes_decrypt(nonce,encrypted_text,tag)
+
+    return jsonify({
+        'encrypted_text': encrypted_text,
+        'plain_text': plain_text,
+        'nonce':nonce,
+        'tag':tag
+    })
+    
+    
+    
+    
 @app.route('/vignere-encrypt', methods=['POST'])
 def vigenere_encrypt_cipher():
     data = request.get_json()
