@@ -1,11 +1,28 @@
-### Workflow
+### **Simple Workflow of RC4 Cipher**  
 ---
-1. Plain Text and the Key of Same length will be given in a list format
-    - Here we use token_bytes for generating a secret key and making a list initially
-2. Initialize a list with number 0 to 255
-3. Here there will be 2 functions 
-    - Key Scheduling Algorithm (KSA)
-    - Pseudo-Random Generation Algorithm (PRGA)
-4. In KSA we initialize the list and will scramble (re-arranging) the list with some formulas
-5. The scrambled list will then sent to **PRGA** for key generation ,as it does some calculations like mod or swapping ultimately we will  be returning the **key list** 
-6. 
+
+- **Input the Plain Text and Key**  
+   - We provide a **plain text message** (the text we want to encrypt).  
+   - We generate a **random key** using `token_bytes`, ensuring it has the same length as needed.  
+
+- **Initialize a List**  
+   - We create a list of numbers **from 0 to 255**. This list will be **scrambled** using the key.  
+
+- **Use Two Functions for Encryption**  
+   - **Key Scheduling Algorithm (KSA)** → Scrambles the list using the key.  
+   - **Pseudo-Random Generation Algorithm (PRGA)** → Generates a key stream to encrypt the message.  
+
+- **Key Scheduling Algorithm (KSA)**  
+   - We mix (shuffle) the list using the key.  
+   - This ensures that the encryption is different each time.  
+
+- **Generate Keystream Using PRGA**  
+   - The scrambled list is used to generate a **random keystream** (a sequence of numbers).  
+   - These numbers are used to encrypt the plain text.  
+
+- **Encrypt the Plain Text**  
+   - Each letter in the plain text is **XORed** (mathematically combined) with the corresponding keystream value.  
+   - This produces the **cipher text** (encrypted text).  
+
+- **Decrypt Using the Same Process**  
+   - Since XOR is **reversible**, running the process again **decrypts** the text back to its original form.  

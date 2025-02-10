@@ -19,22 +19,62 @@ def PRGA(S, text_length):
         key_stream.append(S[t])
     return key_stream
 
-def rc4_encrypt_decrypt(plaintext, key):
+def rc4_encrypt_decrypt(text, key):
     S = KSA(key)
-    key_stream = PRGA(S, len(plaintext))
-    cipher_text = ''.join(chr(ord(plaintext[i]) ^ key_stream[i]) for i in range(len(plaintext)))
-    return cipher_text
+    key_stream = PRGA(S, len(text))
+    result = ''.join(chr(ord(text[i]) ^ key_stream[i]) for i in range(len(text)))
+    return result
 
+def encrypt_text():
+    input_text = input("Enter a string to encrypt: ")
+    key = token_bytes(16)
+    key = list(key)
 
-input_text = input("Enter a string to encrypt: ")
-key = token_bytes(16)
+    cipher_text = rc4_encrypt_decrypt(input_text, key)
+    
+    with open("./Lab_2_4/EncryptedText.txt", "w", encoding="utf-8") as enc_file:
+        enc_file.write(cipher_text)
+    
+    decrypted_text = rc4_encrypt_decrypt(cipher_text, key)
+    
+    with open("./Lab_2_4/DecryptedText.txt", "w", encoding="utf-8") as dec_file:
+        dec_file.write(decrypted_text)
+    
+    print("Encryption & Decryption completed! Check 'EncryptedText.txt' & 'DecryptedText.txt'.")
 
-key = list(key)
+def encrypt_file():
+    filename = input("Enter filename (with extension) to encrypt: ")
+    
+    try:
+        with open(f'./Lab_2_4/{filename}', "r", encoding="utf-8") as file:
+            file_data = file.read()
+        
+        key = token_bytes(16)
+        key = list(key)
 
-# Encrypt the text
-cipher_text = rc4_encrypt_decrypt(input_text, key)
-print(f"Cipher Text: {cipher_text}")
+        encrypted_data = rc4_encrypt_decrypt(file_data, key)
+        
+        with open("./Lab_2_4/EncryptedFile.txt", "w", encoding="utf-8") as enc_file:
+            enc_file.write(encrypted_data)
 
-# Decrypt the text (RC4 encryption and decryption are symmetric)
-decrypted_text = rc4_encrypt_decrypt(cipher_text, key)
-print(f"Decrypted Text: {decrypted_text}")
+        decrypted_data = rc4_encrypt_decrypt(encrypted_data, key)
+
+        with open("./Lab_2_4/DecryptedFile.txt", "w", encoding="utf-8") as dec_file:
+            dec_file.write(decrypted_data)
+
+        print("Encryption & Decryption completed! Check 'EncryptedFile.txt' & 'DecryptedFile.txt'.")
+
+    except FileNotFoundError:
+        print("Error: File not found!")
+
+print("1. Encrypt a text message")
+print("2. Encrypt a file")
+
+choice = input("Choose an option: ")
+
+if choice == "1":
+    encrypt_text()
+elif choice == "2":
+    encrypt_file()
+else:
+    print("Invalid choice. Please select 1 or 2.")
