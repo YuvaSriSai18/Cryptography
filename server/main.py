@@ -9,6 +9,7 @@ CORS(app,resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes and 
 @app.route('/')
 def Home():
     return 'Home'
+@app.route('/rc4-encrypt' , methods=['POST'])
 @app.route('/aes-encrypt', methods=['POST'])
 def aes_encrypt_cipher():
     data = request.get_json()

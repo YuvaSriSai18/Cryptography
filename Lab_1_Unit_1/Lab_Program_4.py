@@ -8,7 +8,7 @@ random.shuffle(cipher_list)
 print("Lowercase:", lowercase)
 print("Cipher List:", cipher_list)
 
-plain_text = 'yu va'
+plain_text = 'Attack postponed to tomorrow'
 cipher_text = ''
 plain_text = plain_text.lower()  
 
