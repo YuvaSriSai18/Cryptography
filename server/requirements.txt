@@ -2,9 +2,5 @@ Flask== 3.0.3
 Flask-Cors== 5.0.0
 pycryptodome==3.21.0
 requests==2.32.3
-# hashlib
-os
-base64
 pycrypto
-string
 secrets
