@@ -17,11 +17,11 @@ def aes_decrypt(nonce, ciphertext, tag):
     except:
         return False 
 
-nonce, ciphertext, tag = aes_encrypt(input("Enter a message: "))
-plaintext = aes_decrypt(nonce, ciphertext, tag)
+# nonce, ciphertext, tag = aes_encrypt(input("Enter a message: "))
+# plaintext = aes_decrypt(nonce, ciphertext, tag)
 
-print(f'\n Plain Text Entered : {plaintext} \n Cipher Text in base 64 : {ciphertext} , \n nonce : {nonce} \n tag : {tag}\n')
-if not plaintext:
-    print("Message is corrupted")
-else:
-    print(f'Plain text: {plaintext}')
+# print(f'\n Plain Text Entered : {plaintext} \n Cipher Text in base 64 : {ciphertext} , \n nonce : {nonce} \n tag : {tag}\n')
+# if not plaintext:
+#     print("Message is corrupted")
+# else:
+#     print(f'Plain text: {plaintext}')

@@ -3,6 +3,8 @@ from flask_cors import CORS  # Import the CORS module
 from vigenere_cipher import generate_key_string, encrypt_data, decrypt_data
 from playfair import encrypt, Decrypt
 from AES_Cipher import aes_decrypt , aes_encrypt
+from Diffie_Hellman import diffie_encrypt_message , diffie_decrypt_message 
+import hashlib , base64 , os
 app = Flask(__name__)
 CORS(app,resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes and origins
 
@@ -118,6 +120,47 @@ def playfair_decrypt():
     return jsonify({
         'decrypted_text': plain_text,
         'key': key,
+        'cipher_text': cipher_text
+    })
+
+@app.route('/diffie-encrypt', methods=['POST'])
+def diffie_encrypt():
+    data = request.get_json()
+
+    if not data or 'text' not in data:
+        return jsonify({'error': 'Please provide "text" in the request body.'}), 400
+
+    plain_text = data['text']
+    
+    # Simulated Diffie-Hellman shared secret
+    shared_secret = 123456  
+    aes_key = hashlib.sha256(str(shared_secret).encode()).digest()  # Convert to 256-bit AES key
+
+    cipher_text = diffie_encrypt_message(plain_text, aes_key)
+
+    return jsonify({
+        'encrypted_text': cipher_text,
+        'plain_text': plain_text
+    })
+
+
+@app.route('/diffie-decrypt', methods=['POST'])  
+def diffie_decrypt():
+    data = request.get_json()
+
+    if not data or 'text' not in data:
+        return jsonify({'error': 'Please provide "text" in the request body.'}), 400
+
+    cipher_text = data['text']
+    
+    # Simulated Diffie-Hellman shared secret (must be same as used in encryption)
+    shared_secret = 123456  
+    aes_key = hashlib.sha256(str(shared_secret).encode()).digest()  # Convert to 256-bit AES key
+
+    plain_text = diffie_decrypt_message(cipher_text, aes_key)
+
+    return jsonify({
+        'decrypted_text': plain_text,
         'cipher_text': cipher_text
     })
 
